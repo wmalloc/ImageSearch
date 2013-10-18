@@ -25,9 +25,14 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 public class ImageSearch extends Activity {
+	public static final int IMAGE_DISPLAY_ACTIVITY = 0;
+	public static final int SETTINGS_ACTIVITY = 1;
+	
 	EditText etQuery;
     GridView gvResults;
     Button btnSearch;
+    SearchSettings searchSettings = new SearchSettings();
+    
     ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
     ImageResultArrayAdapter imageAdapter;
     
@@ -43,8 +48,8 @@ public class ImageSearch extends Activity {
 			public void onItemClick(AdapterView<?> adapter, View parent, int position, long rowId) {
 				Intent i = new Intent(getApplicationContext(), ImageDisplayActivity.class);
 				ImageResult imageResult = imageResults.get(position);
-				i.putExtra("result", imageResult);
-				startActivityForResult(i, 0);
+				i.putExtra(ImageDisplayActivity.KEY_NAME, imageResult);
+				startActivityForResult(i, IMAGE_DISPLAY_ACTIVITY);
 			}
 		});
 	}
@@ -70,7 +75,15 @@ public class ImageSearch extends Activity {
 	
 	private void openSettings() {
 		Intent i = new Intent(getApplicationContext(), Settings.class);
-		startActivityForResult(i, 1);
+		i.putExtra(Settings.KEY_NAME, searchSettings);
+		startActivityForResult(i, SETTINGS_ACTIVITY);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == SETTINGS_ACTIVITY && resultCode == Activity.RESULT_OK) {	
+			searchSettings = (SearchSettings) data.getSerializableExtra(Settings.KEY_NAME);
+		}
 	}
 
 	private void setupViews() {
@@ -83,8 +96,33 @@ public class ImageSearch extends Activity {
 		String queryString = etQuery.getText().toString();
 		Toast.makeText(this, "Searching for " + queryString, Toast.LENGTH_LONG).show();
 		AsyncHttpClient client = new AsyncHttpClient();
+		String urlString = "";
+		String value = searchSettings.getColorFilter();
+		if(value != null && value.length() > 0)
+		{
+			urlString += "&imgcolor=" + Uri.encode(value);
+		}
+		value = searchSettings.getImageSize();
+		if(value != null && value.length() > 0)
+		{
+			urlString += "&imgsz="+ Uri.encode(value);
+		}
+		
+		value = searchSettings.getImageType();
+		if(value != null && value.length() > 0)
+		{
+			urlString += "&imgtype="+Uri.encode(value);
+		}
+		
+		value = searchSettings.getSiteFilter();
+		if(value != null && value.length() > 0)
+		{
+			urlString += "&as_sitesearch=" + Uri.encode(value);
+		}
+		
+		urlString += "&v=1.0&q=" + Uri.encode(queryString);
 		// https://ajax.googleapis.com/ajax/services/search/images?q=Android&v=1.0
-		client.get("http://ajax.googleapis.com/ajax/services/search/images?rsz=8&start=" + 0 + "&v=1.0&q=" + Uri.encode(queryString), new JsonHttpResponseHandler() {
+		client.get("http://ajax.googleapis.com/ajax/services/search/images?rsz=8&start=" + 0 + urlString, new JsonHttpResponseHandler() {
 			public void onSuccess(JSONObject response) {
 				JSONArray imageJsonResult = null;
 				try {

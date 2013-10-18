@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="colors">
-		<item>Red</item> 
-		<item>Blue</item>
-		<item>White</item>
-		<item>Yellow</item>
-		<item>Black</item>
-		<item>Green</item>
-		<item>Purple</item>
-		<item>Orange</item>
-		<item>Grey</item>
+		<item>black</item> 
+		<item>blue</item>
+		<item>brown</item>
+		<item>gray</item>
+		<item>green</item>
+		<item>orange</item>
+		<item>pink</item>
+		<item>purple</item>
+		<item>red</item>
+		<item>teal</item>
+		<item>white</item>
+		<item>yellow</item>
     </string-array>
     <string-array name="imageSizes">
+        <item>icon</item>
         <item>small</item>
         <item>medium</item>
-        <item>large></item>
-        <item>x-large</item>
-        <item>xx-large</item>
+        <item>large</item>
+        <item>xlarge</item>
+        <item>xxlarge</item>
+        <item>huge</item>
     </string-array>
     <string-array name="imageTypes">
         <item>faces</item>
         <item>photos</item>
-        <item>clip art</item>
-        <item>line art</item>
+        <item>clipart</item>
+        <item>lineart</item>
     </string-array>
 </resources>

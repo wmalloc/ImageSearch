@@ -9,6 +9,14 @@ public class SearchSettings implements Serializable {
 	private String imageType;
 	private String siteFilter;
 	
+	public SearchSettings () {
+		super();
+		imageSize = "";
+		colorFilter = "";
+		imageType = "";
+		siteFilter = "";
+	}
+	
 	public String getImageSize() {
 		return imageSize;
 	}

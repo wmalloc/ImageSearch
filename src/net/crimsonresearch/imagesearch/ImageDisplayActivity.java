@@ -8,11 +8,13 @@ import android.view.Menu;
 
 public class ImageDisplayActivity extends Activity {
 
+	public static final String KEY_NAME = "result";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_display);
-		ImageResult imageResult = (ImageResult) getIntent().getSerializableExtra("result");
+		ImageResult imageResult = (ImageResult) getIntent().getSerializableExtra(KEY_NAME);
 		SmartImageView ivImage = (SmartImageView) findViewById(R.id.ivResult);
 		ivImage.setImageUrl(imageResult.getFullUrl());
 	}

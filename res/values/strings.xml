@@ -15,5 +15,6 @@
     <string name="settings_image_type">Image Type</string>
     <string name="settings_site_filter">Site Filter</string>
     <string name="settings_site_filter_hint">yahoo.com</string>
+    <string name="settings_done">Done</string>
 
 </resources>
