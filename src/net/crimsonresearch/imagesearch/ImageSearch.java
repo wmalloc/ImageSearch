@@ -32,6 +32,7 @@ public class ImageSearch extends Activity {
     GridView gvResults;
     Button btnSearch;
     SearchSettings searchSettings = new SearchSettings();
+    String queryString;
     
     ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
     ImageResultArrayAdapter imageAdapter;
@@ -50,6 +51,13 @@ public class ImageSearch extends Activity {
 				ImageResult imageResult = imageResults.get(position);
 				i.putExtra(ImageDisplayActivity.KEY_NAME, imageResult);
 				startActivityForResult(i, IMAGE_DISPLAY_ACTIVITY);
+			}
+		});
+		
+		gvResults.setOnScrollListener(new EndlessScrollListener() {
+			@Override
+			public void onLoadMore(int page, int totalItemsCount) {
+				loadImagesForPage(page, queryString);
 			}
 		});
 	}
@@ -93,8 +101,13 @@ public class ImageSearch extends Activity {
 	}
 	
 	public void onImageSearch(View v) {
-		String queryString = etQuery.getText().toString();
+			queryString = etQuery.getText().toString();
 		Toast.makeText(this, "Searching for " + queryString, Toast.LENGTH_LONG).show();
+		imageResults.clear();
+		loadImagesForPage(0, queryString);
+	}
+	
+    private void loadImagesForPage(final int page, final String queryString) {
 		AsyncHttpClient client = new AsyncHttpClient();
 		String urlString = "";
 		String value = searchSettings.getColorFilter();
@@ -122,12 +135,11 @@ public class ImageSearch extends Activity {
 		
 		urlString += "&v=1.0&q=" + Uri.encode(queryString);
 		// https://ajax.googleapis.com/ajax/services/search/images?q=Android&v=1.0
-		client.get("http://ajax.googleapis.com/ajax/services/search/images?rsz=8&start=" + 0 + urlString, new JsonHttpResponseHandler() {
+		client.get("http://ajax.googleapis.com/ajax/services/search/images?rsz=8&start=" + page + urlString, new JsonHttpResponseHandler() {
 			public void onSuccess(JSONObject response) {
 				JSONArray imageJsonResult = null;
 				try {
 					imageJsonResult = response.getJSONObject("responseData").getJSONArray("results");
-					imageResults.clear();
 					imageAdapter.addAll(ImageResult.fromJSONArray(imageJsonResult));
 					Log.d("DEBUG", imageResults.toString());
 				} catch (JSONException e) {
@@ -136,5 +148,5 @@ public class ImageSearch extends Activity {
 				
 			}
 		});
-	}
+    }
 }
