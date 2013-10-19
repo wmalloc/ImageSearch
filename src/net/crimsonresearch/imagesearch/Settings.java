@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class Settings extends Activity {
@@ -36,8 +37,7 @@ public class Settings extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				String item = (String) parent.getItemAtPosition(pos).toString();
 				searchSettings.setImageSize(item);
-				TextView textView = (TextView)view;
-				textView.setText(item);
+				setSpinnerToValue(spImageSize, item);
 			}
 
 	        public void onNothingSelected(AdapterView<?> parent) {
@@ -53,8 +53,7 @@ public class Settings extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				String item = (String) parent.getItemAtPosition(pos).toString();
 				searchSettings.setColorFilter(item);
-				TextView textView = (TextView)view;
-				textView.setText(item);
+				setSpinnerToValue(spColorFilter, item);
 			}
 
 	        public void onNothingSelected(AdapterView<?> parent) {
@@ -70,8 +69,7 @@ public class Settings extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				String item = (String) parent.getItemAtPosition(pos).toString();
 				searchSettings.setImageType(item);
-				TextView textView = (TextView)view;
-				textView.setText(item);
+				setSpinnerToValue(spImageType, item);
 			}
 
 	        public void onNothingSelected(AdapterView<?> parent) {
@@ -99,5 +97,16 @@ public class Settings extends Activity {
 		setResult(Activity.RESULT_OK, i);
 		
 		finish();
+	}
+	
+	public void setSpinnerToValue(Spinner spinner, String value) {
+		int index = 0;
+		SpinnerAdapter adapter = spinner.getAdapter();
+		for (int i = 0; i < adapter.getCount(); i++) {
+			if (adapter.getItem(i).equals(value)) {
+				index = i;
+			}
+		}
+		spinner.setSelection(index);
 	}
 }

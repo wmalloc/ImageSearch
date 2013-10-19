@@ -56,7 +56,8 @@
         android:layout_alignBottom="@+id/tvImageSize"
         android:layout_alignRight="@dimen/activity_horizontal_margin"
         android:layout_alignTop="@+id/tvImageSize"
-        android:layout_toRightOf="@+id/tvImageType" />
+        android:layout_toRightOf="@+id/tvImageType"
+        android:entries="@array/imageSizes" />
     
     <Spinner
         android:id="@+id/spColorFilter"
@@ -65,7 +66,8 @@
         android:layout_alignBottom="@+id/tvColorFilter"
         android:layout_alignRight="@dimen/activity_horizontal_margin"
         android:layout_alignTop="@+id/tvColorFilter"
-        android:layout_toRightOf="@+id/tvColorFilter" />
+        android:layout_toRightOf="@+id/tvColorFilter"
+        android:entries="@array/colors" />
  
    <Spinner
        android:id="@+id/spImageType"
@@ -74,7 +76,8 @@
        android:layout_alignBottom="@+id/tvImageType"
        android:layout_alignRight="@dimen/activity_horizontal_margin"
        android:layout_alignTop="@+id/tvImageType"
-       android:layout_toRightOf="@+id/tvImageType" />
+       android:layout_toRightOf="@+id/tvImageType"
+       android:entries="@array/imageTypes" />
 
    <TextView
        android:id="@+id/tvSiteFilter"
